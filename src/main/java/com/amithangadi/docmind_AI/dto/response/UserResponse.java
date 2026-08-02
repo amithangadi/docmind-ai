@@ -2,20 +2,70 @@ package com.amithangadi.docmind_AI.dto.response;
 
 import com.amithangadi.docmind_AI.entity.Role;
 
-import lombok.Builder;
-import lombok.Getter;
-
-@Getter
-@Builder
 public class UserResponse {
 
-	private Long id;
-	
-	private String firstName;
-	
-	private String lastName;
-	
-	private String email;
-	
-	private Role role;
+    private Long id;
+
+    private String firstName;
+
+    private String lastName;
+
+    private String email;
+
+    private Role role;
+
+    // Default Constructor
+    public UserResponse() {
+    }
+
+    // Parameterized Constructor
+    public UserResponse(Long id, String firstName, String lastName, String email, Role role) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.role = role;
+    }
+
+    // Getters and Setters
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 }
