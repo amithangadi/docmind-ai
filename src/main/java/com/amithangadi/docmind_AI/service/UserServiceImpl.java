@@ -7,6 +7,7 @@ import com.amithangadi.docmind_AI.dto.request.RegisterRequest;
 import com.amithangadi.docmind_AI.dto.response.UserResponse;
 import com.amithangadi.docmind_AI.entity.Role;
 import com.amithangadi.docmind_AI.entity.User;
+import com.amithangadi.docmind_AI.exception.ResourceAlreadyExistsException;
 import com.amithangadi.docmind_AI.repository.UserRepository;
 
 @Service
@@ -25,7 +26,7 @@ public class UserServiceImpl implements UserService {
 
         // Check if email already exists
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new RuntimeException("Email already exists");
+            throw new ResourceAlreadyExistsException("Email already exists");
         }
 
         // Create User object
