@@ -6,11 +6,10 @@ import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
-import lombok.Getter;
-import lombok.Setter;
 
-@Setter
-@Getter
+
+
+
 @MappedSuperclass
 public abstract class BaseEntity {
 
@@ -29,4 +28,22 @@ public abstract class BaseEntity {
 	public void onUpdate() {
 		updatedAt = LocalDateTime.now();
 	}
+
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public LocalDateTime getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(LocalDateTime updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+	
+	
 }

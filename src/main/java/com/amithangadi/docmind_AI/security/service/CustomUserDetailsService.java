@@ -1,4 +1,4 @@
-package com.amithangadi.docmind_AI.service;
+package com.amithangadi.docmind_AI.security.service;
 
 import java.util.Collections;
 
