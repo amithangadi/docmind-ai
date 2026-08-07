@@ -12,11 +12,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.amithangadi.docmind_AI.dto.request.RenameDocumentRequest;
 import com.amithangadi.docmind_AI.dto.response.DocumentDetailsResponse;
 import com.amithangadi.docmind_AI.dto.response.DocumentResponse;
+import com.amithangadi.docmind_AI.dto.response.DocumentSummaryResponse;
 import com.amithangadi.docmind_AI.entity.Document;
 import com.amithangadi.docmind_AI.entity.User;
 import com.amithangadi.docmind_AI.exception.ResourceNotFoundException;
@@ -28,6 +30,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 
 @Service
+@Transactional
 public class DocumentServiceImpl implements DocumentService {
 
     private final DocumentRepository documentRepository;
@@ -256,4 +259,38 @@ public class DocumentServiceImpl implements DocumentService {
 
         return buildDocumentDetailsResponse(updatedDocument);
     }
+    
+    @Override
+    public void deleteDocument(Long id, String email) {
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("User not found"));
+
+        Document document = documentRepository
+                .findByIdAndUser(id, user)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Document not found"));
+
+        Path filePath = Paths.get(document.getStoragePath());
+
+        try {
+
+            Files.deleteIfExists(filePath);
+
+        } catch (IOException ex) {
+
+            throw new RuntimeException("Unable to delete file.", ex);
+
+        }
+
+        documentRepository.delete(document);
+    }
+
+	@Override
+	public Page<DocumentSummaryResponse> getDocuments(String email, String keyword, String fileType, int page, int size,
+			String sortBy, String direction) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

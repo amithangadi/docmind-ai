@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -128,5 +129,19 @@ public class DocumentController {
 	                    authentication.getName())
 
 	    );
+	}
+	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Void> deleteDocument(
+
+	        @PathVariable Long id,
+
+	        Authentication authentication) {
+
+	    documentService.deleteDocument(
+	            id,
+	            authentication.getName());
+
+	    return ResponseEntity.noContent().build();
 	}
 }
