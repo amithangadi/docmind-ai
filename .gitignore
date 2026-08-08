@@ -29,5 +29,34 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-### VS Code ###
+# Maven
+target/
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# IntelliJ
+.idea/
+*.iml
+
+# VS Code
 .vscode/
+
+# Logs
+*.log
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+application-local.yml
+
+# Uploaded files
+uploads/
+
+# Maven Wrapper
+.mvn/wrapper/maven-wrapper.jar
