@@ -19,7 +19,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.amithangadi.docmind_AI.dto.request.RenameDocumentRequest;
 import com.amithangadi.docmind_AI.dto.response.DocumentDetailsResponse;
 import com.amithangadi.docmind_AI.dto.response.DocumentResponse;
+import com.amithangadi.docmind_AI.entity.Document;
 import com.amithangadi.docmind_AI.service.DocumentService;
+import com.amithangadi.docmind_AI.service.DocumentTextExtractor;
 
 import jakarta.validation.Valid;
 
@@ -143,5 +145,29 @@ public class DocumentController {
 	            authentication.getName());
 
 	    return ResponseEntity.noContent().build();
+	}
+	
+	@GetMapping("/{id}/text")
+	public ResponseEntity<String> extractText(
+	        @PathVariable Long id,
+	        Authentication authentication) {
+
+	    String text = documentService.extractDocumentText(
+	            id,
+	            authentication.getName());
+
+	    return ResponseEntity.ok(text);
+	}
+	
+	@PostMapping("/{id}/process-text")
+	public ResponseEntity<Void> processDocumentText(
+	        @PathVariable Long id,
+	        Authentication authentication) {
+
+	    documentService.processDocumentText(
+	            id,
+	            authentication.getName());
+
+	    return ResponseEntity.ok().build();
 	}
 }

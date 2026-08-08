@@ -35,6 +35,8 @@ public class DocumentServiceImpl implements DocumentService {
 
     private final DocumentRepository documentRepository;
     private final UserRepository userRepository;
+    
+    private final DocumentTextExtractor documentTextExtractor;
 
     @Value("${file.upload-dir}")
     private String uploadDir;
@@ -46,9 +48,11 @@ public class DocumentServiceImpl implements DocumentService {
     );
 
     public DocumentServiceImpl(DocumentRepository documentRepository,
-                               UserRepository userRepository) {
+                               UserRepository userRepository,
+                               DocumentTextExtractor documentTextExtractor) {
         this.documentRepository = documentRepository;
         this.userRepository = userRepository;
+        this.documentTextExtractor = documentTextExtractor;
     }
 
     @Override
@@ -292,5 +296,50 @@ public class DocumentServiceImpl implements DocumentService {
 			String sortBy, String direction) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	@Override
+	public String extractDocumentText(Long id, String email) {
+
+	    User user = userRepository.findByEmail(email)
+	            .orElseThrow(() ->
+	                    new ResourceNotFoundException("User not found"));
+
+	    Document document = documentRepository
+	            .findByIdAndUser(id, user)
+	            .orElseThrow(() ->
+	                    new ResourceNotFoundException("Document not found"));
+
+	    if (document.getExtractedText() == null) {
+
+	        String extractedText =
+	                documentTextExtractor.extractText(document);
+
+	        document.setExtractedText(extractedText);
+
+	        documentRepository.save(document);
+	    }
+
+	    return document.getExtractedText();
+	}
+	
+	@Override
+	public void processDocumentText(Long id, String email) {
+
+	    User user = userRepository.findByEmail(email)
+	            .orElseThrow(() ->
+	                    new ResourceNotFoundException("User not found"));
+
+	    Document document = documentRepository
+	            .findByIdAndUser(id, user)
+	            .orElseThrow(() ->
+	                    new ResourceNotFoundException("Document not found"));
+
+	    String extractedText =
+	            documentTextExtractor.extractText(document);
+
+	    document.setExtractedText(extractedText);
+
+	    documentRepository.save(document);
 	}
 }

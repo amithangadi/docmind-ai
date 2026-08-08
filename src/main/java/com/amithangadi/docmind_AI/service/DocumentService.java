@@ -40,4 +40,8 @@ public interface DocumentService {
             int size,
             String sortBy,
             String direction);
+    
+    String extractDocumentText(Long id, String email);
+    
+    void processDocumentText(Long id, String email);
 }

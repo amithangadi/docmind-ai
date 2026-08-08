@@ -36,6 +36,9 @@ public class Document extends BaseEntity {
 	@Column(length = 500)
 	private String description;
 	
+	@Column(columnDefinition = "LONGTEXT")
+	private String extractedText;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
@@ -108,6 +111,15 @@ public class Document extends BaseEntity {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+	public String getExtractedText() {
+		return extractedText;
+	}
+
+	public void setExtractedText(String extractedText) {
+		this.extractedText = extractedText;
+	}
+	
 	
 	
 }
